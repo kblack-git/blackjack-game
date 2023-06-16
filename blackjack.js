@@ -127,14 +127,24 @@ playerCards.innerHTML=playerHand
 dealerCards.innerHTML=dealerHand
 
 //display # of cards left in deck in header
-deckCardsLeft.innerHTML=('Cards left: '+shuffledDeck.length)
+deckCardsLeft.innerHTML=('Cards left: '+ shuffledDeck.length)
 
 //display current scores of dealer & player in header
-dealerScore.innerHTML=('Player Count : ' + countDealtCards(playerHand))
-playerScore.innerHTML=('Dealer Count : ' + countDealtCards(dealerHand))
+dealerScore.innerHTML=('Dealer Count : ' + countDealtCards(dealerHand))
+playerScore.innerHTML=('Player Count : ' + countDealtCards(playerHand))
+
+//deal player another card when 'hit' button clicked and update page
+function hitCard() {
+    dealCard(1,playerHand)
+    playerCards.innerHTML=playerHand
+    playerScore.innerHTML=('Player Count : ' + countDealtCards(playerHand))
+    deckCardsLeft.innerHTML=('Cards left: '+ shuffledDeck.length)
+
+}
 
 
-console.log('count= '+countDealtCards(playerHand))
+
+
 
 
 
