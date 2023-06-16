@@ -120,20 +120,26 @@ if (playerCount===21) {
 
 fisherYatesShuffle()
 
-// deal and display dealer's first 2 cards
+// deal and display dealer's & player's first 2 cards
 dealCard(2, playerHand)
+dealCard(2, dealerHand)
+playerCards.innerHTML=playerHand
+dealerCards.innerHTML=dealerHand
+
+//display # of cards left in deck in header
 deckCardsLeft.innerHTML=('Cards left: '+shuffledDeck.length)
 
-//display count and # of cards left
-playerScore.innerHTML=('Player Count : ' + countDealtCards(playerHand))
+//display current scores of dealer & player in header
+dealerScore.innerHTML=('Player Count : ' + countDealtCards(playerHand))
+playerScore.innerHTML=('Dealer Count : ' + countDealtCards(dealerHand))
 
 
 console.log('count= '+countDealtCards(playerHand))
 
 
 
-//deal and display the player's first 2 cards
-playerCards.innerHTML=playerHand
+
+
 
 
     
