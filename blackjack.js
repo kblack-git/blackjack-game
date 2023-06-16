@@ -7,6 +7,9 @@
 
 let dealerCards = document.querySelector('.displayDealerCards')
 let playerCards = document.querySelector('.displayPlayerCards')
+let playerScore = document.querySelector('.playerCount')
+let dealerScore = document.querySelector('.dealerCount')
+let deckCardsLeft = document.querySelector('.deckCardsLeft')
 
 
 let shuffledDeck = []
@@ -35,12 +38,12 @@ shuffledDeck=cardsArray
 }
 
 // Function tp deal cards with parameter for # of cards to deal
-function dealCard(numberOfCards) {
+function dealCard(numberOfCards, playerOrDealer) {
     
     cardsLeft = (shuffledDeck.length)
     cardsLeftAfterDeal = cardsLeft-numberOfCards
     while (--cardsLeft>=cardsLeftAfterDeal) {
-        playerHand.push(shuffledDeck.shift())
+        playerOrDealer.push(shuffledDeck.shift())
         
 
         // shuffledDeck.shift()
@@ -49,7 +52,7 @@ function dealCard(numberOfCards) {
         // return card
         
     }
-    return(playerHand)
+    return(playerOrDealer)
 }
 
 // Function to count dealt cards
@@ -118,9 +121,11 @@ if (playerCount===21) {
 fisherYatesShuffle()
 
 // deal and display dealer's first 2 cards
-dealCard(2)
-console.log(shuffledDeck.length)
+dealCard(2, playerHand)
+deckCardsLeft.innerHTML=('Cards left: '+shuffledDeck.length)
 
+//display count and # of cards left
+playerScore.innerHTML=('Player Count : ' + countDealtCards(playerHand))
 
 
 console.log('count= '+countDealtCards(playerHand))
