@@ -8,19 +8,25 @@
 let dealerCards = document.querySelector('.displayDealerCards')
 let playerCards = document.querySelector('.displayPlayerCards')
 let playerScore = document.querySelector('.playerCount')
+let playerScore2 = document.querySelector('.playerCount2')
 let dealerScore = document.querySelector('.dealerCount')
+let dealerScore2 = document.querySelector('.dealerCount2')
 let deckCardsLeft = document.querySelector('.deckCardsLeft')
-
+let winLoseBust = document.querySelector('.winLoseBust')
 
 let shuffledDeck = []
 let dealerHand = []
 let playerHand = []
-let dealerCount
-let dealerCount2
+let count
+let count2
 let playerCount
 let playerCount2
+let dealerCount
+let dealerCount2
 let hitOrStand=''
-
+let aceCount
+let existingAce=false
+let card
 
 // const prompt = require("prompt-sync")();
 // const input = prompt("Ready to play blackjack?");
@@ -55,67 +61,94 @@ function dealCard(numberOfCards, playerOrDealer) {
     return(playerOrDealer)
 }
 
+
 // Function to count dealt cards
-function countDealtCards(handToCount) {
-    playerCount=0
-    dealerCount=0
+function countDealtCards(handToCount, aceCount) {
+    // multipleAce(handToCount)
+    existingAce=false
+    console.log(!existingAce)
+    count=0
+    count2=0
     numberOfCards=handToCount.length
     console.log(numberOfCards)
-    while (--numberOfCards>=0) {
+    while (--numberOfCards>=0 && count2<22) {
         if (typeof(handToCount[numberOfCards])==='string') {
             if (handToCount[numberOfCards]==='j'|| handToCount[numberOfCards]==='q'||handToCount[numberOfCards]==='k') {
-                playerCount+=10
-                playerCount2+=10
-
-            } else {
-                playerCount+=1;
-                playerCount2+=11;
-            }
+                count += 10
+                count2 += 10
+            } else if (handToCount[numberOfCards]==='a' && !existingAce) {
+                existingAce=true
+                count += 1;
+                count2 += 11;
+            } else if (handToCount[numberOfCards]==='a' && existingAce) {
+                count += 1
+                count2 += 1
+            } 
         } else {
-                playerCount += handToCount[numberOfCards] 
-                playerCount2 += handToCount[numberOfCards]
+                count += handToCount[numberOfCards] 
+                count2 += handToCount[numberOfCards]
             }
-    }
-    return(playerCount)
-    // if (playerCount>21) {
-    //     console.log('BUST!')
-    //     } else if (playerCount===21) {
-    //         console.log('BLACKJACK!')
-    //     } else {
-    //         hitOrStand = prompt('Hit or Stand?')
-    //         console.log(hitOrStand)
-    //     } 
+            console.log(count,count2)
+        }
+    // if (count<21 || count2<21) {
+    //     return (aceCount===1? count : count2)
+    // } else if (count===21 || count2===21) {
+    //     winLoseBust.innerHTML='BLACKJACK!'
+    //     return (aceCount===1? count : count2)
+    // } else {
+    //     winLoseBust.innerHTML='BUST!'
+    //     return (aceCount===1? count : count2)
 
+    // }
+    if (count===21 || count2===21) {
+        winLoseBust.innerHTML='BLACKJACK!'
+        return (aceCount===1? count : count2)
+    } else if (count > 21 && count2 > 21) {
+        winLoseBust.innerHTML='BUST!'
+        return (aceCount===1? count : count2)
+    } else {
+        return (aceCount===1? count : count2)
+    }
+}   
+
+        
+        
+
+//display current scores of dealer & player in header
+function displayScores() {
+    dealerCount = countDealtCards(dealerHand, 1)
+    dealerCount2 = countDealtCards(dealerHand, 2)
+    dealerScore.innerHTML=('Dealer Count : ' + dealerCount)
+    if (dealerCount2 < 22 && dealerCount2 > dealerCount) { 
+        dealerScore2.innerHTML=('dealer Count2 : ' + dealerCount2)
+    }
+    playerCount = countDealtCards(playerHand, 1)
+    playerCount2 = countDealtCards(playerHand, 2)
+    console.log(playerCount)
+    playerScore.innerHTML=('Player Count : ' + playerCount)
+    if (playerCount2 > playerCount) { 
+        playerScore2.innerHTML=('Player Count2 : ' + playerCount2)
+    }
+}
+
+//deal player another card when 'hit' button clicked and update page
+function hitCard() {
+    dealCard(1,playerHand)
+    playerCards.innerHTML=playerHand
+    displayScores()
+    // playerScore.innerHTML=('Player Count : ' + countDealtCards(playerHand))
+    deckCardsLeft.innerHTML=('Cards left: '+ shuffledDeck.length)
+
+}
+
+function isWinner() {
+    
+}
+    
     
 
-    // if (hitOrStand==='Hit') {
-        
-    //     console.log('hit')
-    //     dealCard(1)
-    //     console.log(playerHand)
-    // } else if (hitOrStand==='Stand') {
-    //     console.log('stand)')
-    // }
-}
 
 
-
-
-while (playerCount<21) {
-    // hitOrStand = prompt('Hit or Stand?')
-    if (hitOrStand==='Hit') {
-        console.log(dealCard(1))
-        console.log(shuffledDeck.length)
-        console.log(countDealtCards())
-    } else {
-        break
-    } 
-}
-if (playerCount===21) {
-    console.log('BLACKJACK!!! You win!')
-} else if (playerCount>21) {
-    console.log('BUST')
-}
 
 
 fisherYatesShuffle()
@@ -125,22 +158,13 @@ dealCard(2, playerHand)
 dealCard(2, dealerHand)
 playerCards.innerHTML=playerHand
 dealerCards.innerHTML=dealerHand
+displayScores()
 
 //display # of cards left in deck in header
 deckCardsLeft.innerHTML=('Cards left: '+ shuffledDeck.length)
 
-//display current scores of dealer & player in header
-dealerScore.innerHTML=('Dealer Count : ' + countDealtCards(dealerHand))
-playerScore.innerHTML=('Player Count : ' + countDealtCards(playerHand))
 
-//deal player another card when 'hit' button clicked and update page
-function hitCard() {
-    dealCard(1,playerHand)
-    playerCards.innerHTML=playerHand
-    playerScore.innerHTML=('Player Count : ' + countDealtCards(playerHand))
-    deckCardsLeft.innerHTML=('Cards left: '+ shuffledDeck.length)
 
-}
 
 
 
