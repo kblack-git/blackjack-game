@@ -19,12 +19,15 @@ body {
     height:50vh;
 }    
 
-.displayPlayerCards {
 
-}
 
 .infoHeader {
     display: flex;
     justify-content: space-between;
     background-color: aqua;
+}
+
+img {
+    height: 180px;
+    width: 150px
 }

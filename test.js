@@ -1,3 +1,26 @@
+import cardDeck from "./cardDeck"
+
+let playerCards = document.querySelector('.displayPlayerCards')
+
+let cardDeck = [
+    {
+        card: '2h',
+        value: 2,
+        image:'./images/2_of_hearts.png'
+    },
+    {
+        card: '2d',
+        value: 2,
+        image: './images/2_of_diamonds.png'
+    
+    },
+    {
+        card: '10c',
+        value: 10,
+        image: './images/10_of_clubs.png'
+    }
+]
+
 function fisherYatesShuffle() {
     let cardsArray = [2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,6,6,6,6,7,7,7,7,8,8,8,8,
         9,9,9,9,10,10,10,10,'j','j','j','j','q','q','q','q','k','k','k',
@@ -31,11 +54,17 @@ function fisherYatesShuffle() {
 shuffledDeck=cardDeck
 }
 
-fisherYatesShuffle()
-console.log(shuffledDeck)
+// image = document.createElement("img")
+// playerCards.appendChild(image)
 
+document.querySelector("img").src = "./images/3_of_hearts.png"
 
+cardDeck.map(card => {
+    image = document.createElement("img")
+playerCards.appendChild(image)
 
+image.src = `${card.image}`
+})
 
 
 
