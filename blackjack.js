@@ -176,6 +176,16 @@ function hitCard() {
     deckCardsLeft.innerHTML=('Cards left: '+ shuffledDeck.length)
 }
 
+function initialDealerHand() {
+    
+        let image = document.createElement("img")
+        dealerCards.appendChild(image)
+        image.src = `${dealerHand[0].image}`
+        let image2 = document.createElement("img")        
+        dealerCards.appendChild(image2)
+        image2.src = './images/back_of_card.jpeg' 
+}
+
 function displayHand (pOrDHand, pOrDCards) {
     while (pOrDCards.firstChild) {
         pOrDCards.removeChild(pOrDCards.firstChild);
@@ -200,8 +210,8 @@ dealCard(2, playerHand)
 dealCard(2, dealerHand)
 
 displayHand(playerHand, playerCards)
-displayHand(dealerHand, dealerCards)
-
+// displayHand(dealerHand, dealerCards)
+initialDealerHand()
 
 // playerCards.innerHTML=playerHand
 // dealerCards.innerHTML=dealerHand
