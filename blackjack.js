@@ -152,7 +152,7 @@ function displayScores() {
     dealerCount = countDealtCards(dealerHand, 1)
     dealerCount2 = countDealtCards(dealerHand, 2)
     dealerScore.innerHTML=('Dealer Count : ' + dealerCount)
-    if (dealerCount2 < 22 && dealerCount2 > dealerCount) { 
+    if (dealerCount2 > dealerCount) { 
         dealerScore2.innerHTML=('dealer Count2 : ' + dealerCount2)
     }
     playerCount = countDealtCards(playerHand, 1)
@@ -163,6 +163,36 @@ function displayScores() {
         playerScore2.innerHTML=('Player Count2 : ' + playerCount2)
     }
 }
+    
+    
+
+function isWinner() {
+    console.log('isWinner function')
+    if ((playerCount===21 || playerCount2===21) && (dealerCount===21 || dealerCount2===21)) {
+        winLoseBust.innerHTML='PUSH'
+    } 
+    if (playerCount===21 || playerCount2===21) {
+        winLoseBust.innerHTML=' PLAYER BLACKJACK!'
+    }
+    if (dealerCount===21 || dealerCount2===21) {
+        winLoseBust.innerHTML=' YOU LOSE!!! DEALER BLACKJACK!'
+    }  
+    if (dealerCount>21) {
+        winLoseBust.innerHTML=' Dealer Bust! YOU Win!'
+    }
+    if (dealerCount>11 && dealerCount<21) {
+        if (playerCount>dealerCount || playerCount2>dealerCount) {
+            winLoseBust.innerHTML=' YOU WIN!'
+        } else {
+            winLoseBust.innerHTML=' YOU LOSE!'
+
+        }
+
+    } 
+    
+
+}
+
 
 
 //deal player another card when 'hit' button clicked and update page
@@ -172,6 +202,7 @@ function hitCard() {
     // playerCards.innerHTML=playerHand
     displayHand(playerHand, playerCards)
     displayScores()
+    isWinner()
     // playerScore.innerHTML=('Player Count : ' + countDealtCards(playerHand))
     deckCardsLeft.innerHTML=('Cards left: '+ shuffledDeck.length)
 }
@@ -197,7 +228,34 @@ function displayHand (pOrDHand, pOrDCards) {
     })    
 }
 
+function playerStand() {
+    displayHand(dealerHand,dealerCards)
+    while(dealerCount<=16 && dealerCount2<=17) {
+        dealCard(1,dealerHand)
+        
+        displayHand(dealerHand, dealerCards)
+        displayScores()
+      
+        deckCardsLeft.innerHTML=('Cards left: '+ shuffledDeck.length)
+
+    }
+    
+    // while (dealerCount2<=17 && dealerCount2>dealerCount) {
+    //     dealCard(1,dealerHand)
+        
+    //     displayHand(dealerHand, dealerCards)
+    //     displayScores()
+      
+    //     deckCardsLeft.innerHTML=('Cards left: '+ shuffledDeck.length)
+
+    // } 
+
+    isWinner()
+    }
+
 hitButton.addEventListener("click",hitCard)
+standButton.addEventListener("click",playerStand)
+
 
 
 
@@ -210,12 +268,12 @@ dealCard(2, playerHand)
 dealCard(2, dealerHand)
 
 displayHand(playerHand, playerCards)
-// displayHand(dealerHand, dealerCards)
 initialDealerHand()
 
 // playerCards.innerHTML=playerHand
 // dealerCards.innerHTML=dealerHand
 displayScores()
+isWinner()
 
 //display # of cards left in deck in header
 deckCardsLeft.innerHTML=('Cards left: '+ shuffledDeck.length)
