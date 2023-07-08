@@ -123,25 +123,18 @@ function countDealtCards(handToCount, aceCount) {
             }
             console.log(count,count2)
     }
-    // if (count<21 || count2<21) {
-    //     return (aceCount===1? count : count2)
-    // } else if (count===21 || count2===21) {
+   
+    // if (count===21 || count2===21) {
     //     winLoseBust.innerHTML='BLACKJACK!'
     //     return (aceCount===1? count : count2)
-    // } else {
+    // } else if (count > 21 && count2 > 21) {
     //     winLoseBust.innerHTML='BUST!'
     //     return (aceCount===1? count : count2)
-
+    // } else {
+    //     return (aceCount===1? count : count2)
     // }
-    if (count===21 || count2===21) {
-        winLoseBust.innerHTML='BLACKJACK!'
-        return (aceCount===1? count : count2)
-    } else if (count > 21 && count2 > 21) {
-        winLoseBust.innerHTML='BUST!'
-        return (aceCount===1? count : count2)
-    } else {
-        return (aceCount===1? count : count2)
-    }
+    return (aceCount===1? count : count2)
+
 }   
 
         
@@ -162,15 +155,12 @@ function displayScores() {
     if (playerCount2 > playerCount) { 
         playerScore2.innerHTML=('Player Count2 : ' + playerCount2)
     }
-}
     
     
-
-function isWinner() {
-    console.log('isWinner function')
     if ((playerCount===21 || playerCount2===21) && (dealerCount===21 || dealerCount2===21)) {
         winLoseBust.innerHTML='PUSH'
     } 
+
     if (playerCount===21 || playerCount2===21) {
         winLoseBust.innerHTML=' PLAYER BLACKJACK!'
     }
@@ -180,6 +170,17 @@ function isWinner() {
     if (dealerCount>21) {
         winLoseBust.innerHTML=' Dealer Bust! YOU Win!'
     }
+    if (playerCount>21) {
+        winLoseBust.innerHTML=' Player Bust! YOU Lose!'
+
+    }
+}
+    
+    
+
+function isWinner() {
+    console.log('isWinner function')
+   
     if (dealerCount>11 && dealerCount<21) {
         if (playerCount>dealerCount || playerCount2>dealerCount) {
             winLoseBust.innerHTML=' YOU WIN!'
@@ -189,6 +190,8 @@ function isWinner() {
         }
 
     } 
+    
+
     
 
 }
@@ -202,7 +205,7 @@ function hitCard() {
     // playerCards.innerHTML=playerHand
     displayHand(playerHand, playerCards)
     displayScores()
-    isWinner()
+    // isWinner()
     // playerScore.innerHTML=('Player Count : ' + countDealtCards(playerHand))
     deckCardsLeft.innerHTML=('Cards left: '+ shuffledDeck.length)
 }
@@ -230,15 +233,70 @@ function displayHand (pOrDHand, pOrDCards) {
 
 function playerStand() {
     displayHand(dealerHand,dealerCards)
-    while(dealerCount<=16 && dealerCount2<=17) {
+    while((dealerCount<=16 && dealerCount2<=17) || (dealerCount<=16 && dealerCount2>21)) {
         dealCard(1,dealerHand)
         
         displayHand(dealerHand, dealerCards)
         displayScores()
-      
-        deckCardsLeft.innerHTML=('Cards left: '+ shuffledDeck.length)
-
     }
+        deckCardsLeft.innerHTML=('Cards left: '+ shuffledDeck.length)
+        if (dealerCount2>dealerCount && dealerCount2<21) {
+            if (playerCount2>playerCount && playerCount2<21) {
+                if (playerCount2>dealerCount2) {
+                    winLoseBust.innerHTML='You win'
+                } else if (playerCount2<dealerCount2) {
+                    winLoseBust.innerHTML='YOU Lose!'
+                } else {
+                    winLoseBust.innerHTML='PUSH'    
+                }
+                } else if (playerCount<21) {
+                if (playerCount>dealerCount2) {
+                    winLoseBust.innerHTML='YOU WIN.'
+                } else if (playerCount<dealerCount2) {
+                    winLoseBust.innerHTML='YOU Lose.'
+                } else {
+                    winLoseBust.innerHTML='PUSH.'    
+                }
+                }
+        } else if (dealerCount<21) {
+            if (playerCount2>playerCount && playerCount2<21) {
+                if (playerCount2>dealerCount) {
+                    winLoseBust.innerHTML='You win..'
+                } else if (playerCount2<dealerCount) {
+                    winLoseBust.innerHTML='YOU Lose..'
+                } else {
+                    winLoseBust.innerHTML='PUSH..'    
+                }
+            } else if (playerCount<21) {
+                if (playerCount>dealerCount) {
+                winLoseBust.innerHTML='You win...'
+                } else if (playerCount<dealerCount) {
+                winLoseBust.innerHTML='YOU Lose...'
+                } else {
+                    winLoseBust.innerHTML='PUSH...'    
+                }
+            }   
+        }
+        if ((playerCount===21 || playerCount2===21) && (dealerCount===21 || dealerCount2===21)) {
+            winLoseBust.innerHTML='PUSH'
+        } 
+    
+        if (playerCount===21 || playerCount2===21) {
+            winLoseBust.innerHTML=' PLAYER BLACKJACK!'
+        }
+        if (dealerCount===21 || dealerCount2===21) {
+            winLoseBust.innerHTML=' YOU LOSE!!! DEALER BLACKJACK!'
+        }  
+        if (dealerCount>21) {
+            winLoseBust.innerHTML=' Dealer Bust! YOU Win!'
+        }
+        if (playerCount>21) {
+            winLoseBust.innerHTML=' Player Bust! YOU Lose!'
+    
+        }
+}
+
+        
     
     // while (dealerCount2<=17 && dealerCount2>dealerCount) {
     //     dealCard(1,dealerHand)
@@ -250,8 +308,8 @@ function playerStand() {
 
     // } 
 
-    isWinner()
-    }
+    // isWinner()
+    
 
 hitButton.addEventListener("click",hitCard)
 standButton.addEventListener("click",playerStand)
@@ -273,7 +331,7 @@ initialDealerHand()
 // playerCards.innerHTML=playerHand
 // dealerCards.innerHTML=dealerHand
 displayScores()
-isWinner()
+// isWinner()
 
 //display # of cards left in deck in header
 deckCardsLeft.innerHTML=('Cards left: '+ shuffledDeck.length)
