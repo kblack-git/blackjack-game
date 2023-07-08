@@ -1,14 +1,17 @@
 body {
     /* width: 100vh; */
     height: 100vh;
-    background-color: lightslategray;
+    background-color: green;
+    /* background-image: url('/images/background2.jpeg'); */
+    /* background-size: 100%; */
 }
 
 .dealerHand {
     display: flex;
     justify-content: center;
     align-items: center;
-    height:50vh;
+    height:45vh;
+    
 }
 
 .displayDealerCards {
@@ -26,7 +29,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    height:50vh;
+    height:45vh;
 }    
 
 
